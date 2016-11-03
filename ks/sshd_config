@@ -27,7 +27,7 @@ AcceptEnv LANG LC_*
 Subsystem sftp /usr/lib/openssh/sftp-server
 RevokedKeys /usr/local/etc/ssh/krlfile
 PermitRootLogin without-password
-PasswordAuthentication yes
+PasswordAuthentication no
 UsePAM yes
 Ciphers aes256-ctr,blowfish-cbc
 MACs hmac-ripemd160,hmac-sha2-256,hmac-sha2-512
