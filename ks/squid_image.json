@@ -1,0 +1,58 @@
+{
+  "variables": {
+    "aws_access_key": "",
+    "aws_secret_key": "",
+    "source_ami": ""
+  },
+  "builders": [
+    {
+      "type": "amazon-ebs",
+      "access_key": "{{user `aws_access_key`}}",
+      "secret_key": "{{user `aws_secret_key`}}",
+      "region": "us-east-1",
+      "source_ami": "{{user `source_ami`}}",
+      "instance_type": "m3.medium",
+      "ssh_username": "root",
+      "ami_name": "squid-image-ks {{timestamp}}"
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "shell",
+      "inline": [
+        "sleep 30",
+        "sudo apt-get update",
+        "sudo apt-get install --no-install-recommends -y squid3"
+      ]
+    },
+    {
+      "type": "file",
+      "source": "ftp_whitelist",
+      "destination": "/tmp/ftp_whitelist"
+    },
+    {
+      "type": "file",
+      "source": "web_whitelist",
+      "destination": "/tmp/web_whitelist"
+    },
+    {
+      "type": "file",
+      "source": "web_wildcard_whitelist",
+      "destination": "/tmp/web_wildcard_whitelist"
+    },
+    {
+      "type": "file",
+      "source": "squid.conf",
+      "destination": "/tmp/squid.conf"
+    },
+    {
+      "type": "shell",
+      "inline": [
+        "sudo mv /tmp/ftp_whitelist /etc/squid3/ftp_whitelist",
+        "sudo mv /tmp/web_whitelist /etc/squid3/web_whitelist",
+        "sudo mv /tmp/web_wildcard_whitelist /etc/squid3/web_wildcard_whitelist",
+        "sudo mv /tmp/squid.conf /etc/squid3/squid.conf"
+      ]
+    }
+  ]
+}
