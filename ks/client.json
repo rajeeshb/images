@@ -1,0 +1,45 @@
+{
+  "variables": {
+    "aws_access_key": "",
+    "aws_secret_key": "",
+    "source_ami": ""
+  },
+  "builders": [
+    {
+      "type": "amazon-ebs",
+      "access_key": "{{user `aws_access_key`}}",
+      "secret_key": "{{user `aws_secret_key`}}",
+      "region": "us-east-1",
+      "source_ami": "{{user `source_ami`}}",
+      "instance_type": "m3.medium",
+      "ssh_username": "ubuntu",
+      "ami_name": "client-image-ks {{timestamp}}"
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "shell",
+      "inline": [
+        "sleep 30"
+      ]
+    },
+    {
+      "type": "file",
+      "source": "docker",
+      "destination": "/tmp/docker"
+    },
+    {
+      "type": "file",
+      "source": "01proxy",
+      "destination": "/tmp/01proxy"
+    },
+    {
+      "type": "shell",
+      "inline": [
+        "sudo mv /tmp/docker /etc/default/docker",
+        "sudo mv /tmp/01proxy /etc/apt/apt.conf.d/01proxy",
+        "sudo apt-get update"
+      ]
+    }
+  ]
+}

@@ -9,7 +9,7 @@
       "access_key": "{{user `aws_access_key`}}",
       "secret_key": "{{user `aws_secret_key`}}",
       "region": "us-east-1",
-      "source_ami": "ami-fce3c696",
+      "source_ami": "ami-c8580bdf",
       "instance_type": "m3.medium",
       "ssh_username": "ubuntu",
       "ami_name": "base-image-ks {{timestamp}}"
@@ -43,9 +43,10 @@
       "type": "shell",
       "inline": [
         "sudo mv /tmp/sshd_config /etc/ssh/sshd_config",
-        "sudo mkdir -p /usr/local/etc/ssh/krlfile",
+        "sudo mkdir -p /usr/local/etc/ssh",
         "sudo mv /tmp/krlfile /usr/local/etc/ssh/krlfile",
         "sudo mkdir -p /root/.ssh/",
+	"cat /tmp/authorized_keys >> /home/ubuntu/.ssh/authorized_keys",
         "sudo mv /tmp/authorized_keys /root/.ssh/authorized_keys",
         "sudo chown root:root /etc/ssh/sshd_config",
         "sudo chmod 0644 /etc/ssh/sshd_config",

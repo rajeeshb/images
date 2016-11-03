@@ -12,7 +12,7 @@
       "region": "us-east-1",
       "source_ami": "{{user `source_ami`}}",
       "instance_type": "m3.medium",
-      "ssh_username": "root",
+      "ssh_username": "ubuntu",
       "ami_name": "squid-image-ks {{timestamp}}"
     }
   ],
