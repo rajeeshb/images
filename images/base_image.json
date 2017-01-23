@@ -26,17 +26,17 @@
     },
     {
       "type": "file",
-      "source": "sshd_config",
+      "source": "configs/sshd_config",
       "destination": "/tmp/sshd_config"
     },
     {
       "type": "file",
-      "source": "krlfile",
+      "source": "configs/krlfile",
       "destination": "/tmp/krlfile"
     },
     {
       "type": "file",
-      "source": "authorized_keys",
+      "source": "configs/authorized_keys",
       "destination": "/tmp/authorized_keys"
     },
     {

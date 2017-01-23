@@ -27,22 +27,22 @@
     },
     {
       "type": "file",
-      "source": "ftp_whitelist",
+      "source": "configs/ftp_whitelist",
       "destination": "/tmp/ftp_whitelist"
     },
     {
       "type": "file",
-      "source": "web_whitelist",
+      "source": "configs/web_whitelist",
       "destination": "/tmp/web_whitelist"
     },
     {
       "type": "file",
-      "source": "web_wildcard_whitelist",
+      "source": "configs/web_wildcard_whitelist",
       "destination": "/tmp/web_wildcard_whitelist"
     },
     {
       "type": "file",
-      "source": "squid.conf",
+      "source": "configs/squid.conf",
       "destination": "/tmp/squid.conf"
     },
     {

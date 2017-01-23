@@ -25,12 +25,12 @@
     },
     {
       "type": "file",
-      "source": "docker",
+      "source": "configs/docker",
       "destination": "/tmp/docker"
     },
     {
       "type": "file",
-      "source": "01proxy",
+      "source": "configs/01proxy",
       "destination": "/tmp/01proxy"
     },
     {
@@ -38,7 +38,6 @@
       "inline": [
         "sudo mv /tmp/docker /etc/default/docker",
         "sudo mv /tmp/01proxy /etc/apt/apt.conf.d/01proxy",
-        "sudo apt-get update"
       ]
     }
   ]

@@ -1,2 +1,0 @@
-Acquire::http::Proxy "http://cloud-proxy.internal.com:3128";
-Acquire::https::Proxy "http://cloud-proxy.internal.com:3128";
