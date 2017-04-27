@@ -13,6 +13,7 @@
       "source_ami": "{{user `source_ami`}}",
       "instance_type": "m3.medium",
       "ssh_username": "ubuntu",
+      "encrypt_boot": true,
       "ami_name": "client-image-ks {{timestamp}}"
     }
   ],
@@ -22,6 +23,11 @@
       "inline": [
         "sleep 30"
       ]
+    },
+    {
+      "type": "file",
+      "source":"configs/login_ack.sh",
+      "destination":"/tmp/login_ack.sh"
     },
     {
       "type": "file",
@@ -38,6 +44,7 @@
       "inline": [
         "sudo mv /tmp/docker /etc/default/docker",
         "sudo mv /tmp/01proxy /etc/apt/apt.conf.d/01proxy",
+        "sudo mv /tmp/login_ack.sh /etc/profile.d/"
       ]
     }
   ]

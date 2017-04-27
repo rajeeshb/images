@@ -12,7 +12,8 @@
       "source_ami": "ami-c8580bdf",
       "instance_type": "m3.medium",
       "ssh_username": "ubuntu",
-      "ami_name": "base-image-ks {{timestamp}}"
+      "ami_name": "base-image-ks-crypted {{timestamp}}",
+      "encrypt_boot": "true"
     }
   ],
   "provisioners": [
@@ -46,7 +47,7 @@
         "sudo mkdir -p /usr/local/etc/ssh",
         "sudo mv /tmp/krlfile /usr/local/etc/ssh/krlfile",
         "sudo mkdir -p /root/.ssh/",
-	"cat /tmp/authorized_keys >> /home/ubuntu/.ssh/authorized_keys",
+        "cat /tmp/authorized_keys >> /home/ubuntu/.ssh/authorized_keys",
         "sudo mv /tmp/authorized_keys /root/.ssh/authorized_keys",
         "sudo chown root:root /etc/ssh/sshd_config",
         "sudo chmod 0644 /etc/ssh/sshd_config",
