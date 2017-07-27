@@ -1,27 +1,10 @@
-{
-  "variables": {
-    "aws_access_key": "",
-    "aws_secret_key": ""
-  },
-  "builders": [
-    {
-      "type": "amazon-ebs",
-      "access_key": "{{user `aws_access_key`}}",
-      "secret_key": "{{user `aws_secret_key`}}",
-      "region": "us-east-1",
-      "source_ami": "ami-c8580bdf",
-      "instance_type": "m3.medium",
-      "ssh_username": "ubuntu",
-      "ami_name": "base-image-ks-crypted {{timestamp}}",
-      "encrypt_boot": "true"
-    }
-  ],
   "provisioners": [
     {
       "type": "shell",
       "inline": [
         "sleep 30",
         "sudo apt-get update",
+	"sudo apt-get upgrade -y",
         "sudo apt-get install -y fail2ban "
       ]
     },
@@ -54,8 +37,7 @@
         "sudo chown root:root /usr/local/etc/ssh/krlfile",
         "sudo chmod 0600 /usr/local/etc/ssh/krlfile",
         "sudo chown root:root /root/.ssh/authorized_keys",
-        "sudo chmod 0600 /root/.ssh/authorized_keys"
+        "sudo chmod 0600 /root/.ssh/authorized_keys",
+	"sudo sync"
       ]
     }
-  ]
-}

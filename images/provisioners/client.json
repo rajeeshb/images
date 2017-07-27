@@ -1,22 +1,3 @@
-{
-  "variables": {
-    "aws_access_key": "",
-    "aws_secret_key": "",
-    "source_ami": ""
-  },
-  "builders": [
-    {
-      "type": "amazon-ebs",
-      "access_key": "{{user `aws_access_key`}}",
-      "secret_key": "{{user `aws_secret_key`}}",
-      "region": "us-east-1",
-      "source_ami": "{{user `source_ami`}}",
-      "instance_type": "m3.medium",
-      "ssh_username": "ubuntu",
-      "encrypt_boot": true,
-      "ami_name": "client-image-ks {{timestamp}}"
-    }
-  ],
   "provisioners": [
     {
       "type": "shell",
@@ -47,5 +28,3 @@
         "sudo mv /tmp/login_ack.sh /etc/profile.d/"
       ]
     }
-  ]
-}

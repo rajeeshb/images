@@ -1,0 +1,18 @@
+{
+  "variables": {
+    "google_project_id": "",
+    "google_account_file": ""
+  },
+  "builders": [
+    {
+      "type": "googlecompute",
+      "account_file": "{{user `google_account_file`}}",
+      "project_id": "{{user `google_project_id`}}",
+      "zone": "us-central1-b",
+      "source_image": "ubuntu-1604-xenial-v20170721",
+      "disk_type": "pd-ssd",
+      "machine_type": "n1-standard-2",
+      "ssh_username": "ubuntu",
+      "image_name": "base-image-ks-crypted-{{timestamp}}"
+    }
+  ],

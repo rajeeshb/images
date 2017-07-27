@@ -1,0 +1,19 @@
+{
+  "variables": {
+    "google_project_id": "",
+    "google_account_file": "",
+    "google_source_image": ""
+  },
+  "builders": [
+    {
+      "type": "googlecompute",
+      "account_file": "{{user `google_account_file`}}",
+      "project_id": "{{user `google_project_id`}}",
+      "zone": "us-central1-b",
+      "source_image": "{{user `google_source_image`}}",
+      "disk_type": "pd-ssd",
+      "machine_type": "n1-standard-2",
+      "ssh_username": "ubuntu",
+      "image_name": "client-image-ks-{{timestamp}}"
+    }
+  ],
