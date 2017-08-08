@@ -1,5 +1,6 @@
 {
   "variables": {
+    "aws_region": "us-east-1",
     "aws_access_key": "",
     "aws_secret_key": ""
   },
@@ -8,7 +9,7 @@
       "type": "amazon-ebs",
       "access_key": "{{user `aws_access_key`}}",
       "secret_key": "{{user `aws_secret_key`}}",
-      "region": "us-east-1",
+      "region": "{{user `aws_region`}}",
       "source_ami": "ami-c8580bdf",
       "instance_type": "m3.medium",
       "ssh_username": "ubuntu",
