@@ -15,4 +15,4 @@ CXXFLAGS="-Os"
 --with-openssl \
 --without-nettle
 
-make -j2
+make -j4

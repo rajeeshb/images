@@ -61,6 +61,11 @@
       "destination": "/tmp/iptables.conf"
     },
     {
+      "type": "file",
+      "source": "configs/squid",
+      "destination": "/tmp/squid"
+    },
+    {
       "type": "shell",
       "inline": [
         "cd /home/ubuntu/squid-build/",
@@ -76,7 +81,7 @@
         "sudo openssl req -new -key /etc/squid/ssl/squid.key -out /etc/squid/ssl/squid.csr -subj '/C=XX/ST=XX/L=squid/O=squid/CN=squid'",
         "sudo openssl x509 -req -days 3650 -in /etc/squid/ssl/squid.csr -signkey /etc/squid/ssl/squid.key -out /etc/squid/ssl/squid.crt",
         "sudo cat /etc/squid/ssl/squid.key /etc/squid/ssl/squid.crt | sudo tee /etc/squid/ssl/squid.pem",
-        "sudo wget \"https://alioth.debian.org/plugins/scmgit/cgi-bin/gitweb.cgi?p=pkg-squid/pkg-squid3.git;a=blob_plain;f=debian/squid.rc\" -O /etc/init.d/squid",
+        "sudo mv /tmp/squid /etc/init.d/squid",
         "sudo chmod 0755 /etc/init.d/squid",
         "sudo chown -R proxy:proxy /var/log/squid/",
         "sudo sed -i 's/^exit/#exit/' /etc/rc.local",
