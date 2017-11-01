@@ -15,7 +15,7 @@
       "source_ami": "{{user `source_ami`}}",
       "instance_type": "{{user `aws_instance_type`}}",
       "ssh_username": "ubuntu",
-      "ami_name": "squid-image-ks {{timestamp}}"
+      "ami_name": "squid-image {{timestamp}}"
     }
   ],
   "provisioners": [

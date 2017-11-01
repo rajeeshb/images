@@ -14,7 +14,7 @@
       "source_ami": "ami-c8580bdf",
       "instance_type": "{{user `aws_instance_type`}}",
       "ssh_username": "ubuntu",
-      "ami_name": "base-image-ks-crypted {{timestamp}}",
+      "ami_name": "base-image-crypted {{timestamp}}",
       "encrypt_boot": "true"
     }
   ],
