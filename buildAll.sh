@@ -6,7 +6,15 @@ cd "$(dirname $0)"
 function usage() {
   cat << ENDOFM
 bash buildAll.sh [variableFile.json]
-    ex: bash buildAll.sh ~/Secrets/packer/cdistest.json
+    ex: bash buildAll.sh ~/.gen3/secrets/packer/cdistest.json
+where cdistest.json looks like:
+{
+    "aws_region": "us-east-1",
+    "aws_instance_type": "m4.xlarge",
+    "aws_access_key": "YOUR KEY",
+    "aws_secret_key": "YOUR SECRET",
+    "source_ami": ""
+}
 ENDOFM
 }
 
