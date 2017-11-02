@@ -14,7 +14,7 @@
       "source_ami": "ami-da05a4a0",
       "instance_type": "{{user `aws_instance_type`}}",
       "ssh_username": "ubuntu",
-      "ami_name": "ubuntu16-docker-ks-crypted {{timestamp}}",
+      "ami_name": "ubuntu16-docker-crypted {{timestamp}}",
       "encrypt_boot": "true"
     }
   ],

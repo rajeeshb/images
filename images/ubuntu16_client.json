@@ -16,7 +16,7 @@
       "instance_type": "{{user `aws_instance_type`}}",
       "ssh_username": "ubuntu",
       "encrypt_boot": true,
-      "ami_name": "ubuntu16-client-ks {{timestamp}}"
+      "ami_name": "ubuntu16-client {{timestamp}}"
     }
   ],
   "provisioners": [
