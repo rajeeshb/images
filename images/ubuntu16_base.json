@@ -1,0 +1,80 @@
+{
+  "variables": {
+    "aws_region": "us-east-1",
+    "aws_instance_type": "m3.medium",
+    "aws_access_key": "",
+    "aws_secret_key": ""
+  },
+  "builders": [
+    {
+      "type": "amazon-ebs",
+      "access_key": "{{user `aws_access_key`}}",
+      "secret_key": "{{user `aws_secret_key`}}",
+      "region": "{{user `aws_region`}}",
+      "source_ami": "ami-da05a4a0",
+      "instance_type": "{{user `aws_instance_type`}}",
+      "ssh_username": "ubuntu",
+      "ami_name": "ubuntu16-docker-crypted {{timestamp}}",
+      "encrypt_boot": "true"
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "shell",
+      "inline": [
+        "sleep 30",
+        "sudo apt-get update",
+        "sudo apt-get install -y fail2ban",
+        "sudo apt-get install -y apt-transport-https",
+        "sudo apt-get install -y ca-certificates",
+        "sudo apt-get install -y curl",
+        "sudo apt-get install -y software-properties-common",
+        "curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -",
+        "sudo add-apt-repository \"deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable\"",
+        "sudo apt update",
+        "sudo apt install -y docker-ce"
+      ]
+    },
+    {
+      "type": "file",
+      "source": "configs/sshd_config",
+      "destination": "/tmp/sshd_config"
+    },
+    {
+      "type": "file",
+      "source": "configs/krlfile",
+      "destination": "/tmp/krlfile"
+    },
+    {
+      "type": "file",
+      "source": "configs/authorized_keys",
+      "destination": "/tmp/authorized_keys"
+    },
+    {
+      "type": "file",
+      "source": "configs/docker-daemon.json",
+      "destination": "/tmp/daemon.json"
+    },
+    {
+      "type": "shell",
+      "inline": [
+        "sudo mkdir -p /etc/docker",
+        "sudo mv /tmp/daemon.json /etc/docker/daemon.json",
+        "sudo chmod -R 0644 /etc/docker",
+        "sudo usermod -a -G docker ubuntu",
+        "sudo mv /tmp/sshd_config /etc/ssh/sshd_config",
+        "sudo mkdir -p /usr/local/etc/ssh",
+        "sudo mv /tmp/krlfile /usr/local/etc/ssh/krlfile",
+        "sudo mkdir -p /root/.ssh/",
+        "cat /tmp/authorized_keys >> /home/ubuntu/.ssh/authorized_keys",
+        "sudo mv /tmp/authorized_keys /root/.ssh/authorized_keys",
+        "sudo chown root:root /etc/ssh/sshd_config",
+        "sudo chmod 0644 /etc/ssh/sshd_config",
+        "sudo chown root:root /usr/local/etc/ssh/krlfile",
+        "sudo chmod 0600 /usr/local/etc/ssh/krlfile",
+        "sudo chown root:root /root/.ssh/authorized_keys",
+        "sudo chmod 0600 /root/.ssh/authorized_keys"
+      ]
+    }
+  ]
+}
