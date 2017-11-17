@@ -3,8 +3,7 @@
     "aws_region": "us-east-1",
     "aws_instance_type": "m3.medium",
     "aws_access_key": "",
-    "aws_secret_key": "",
-    "ub16_source_ami": ""
+    "aws_secret_key": ""
   },
   "builders": [
     {
@@ -12,11 +11,19 @@
       "access_key": "{{user `aws_access_key`}}",
       "secret_key": "{{user `aws_secret_key`}}",
       "region": "{{user `aws_region`}}",
-      "source_ami": "{{user `ub16_source_ami`}}",
       "instance_type": "{{user `aws_instance_type`}}",
       "ssh_username": "ubuntu",
-      "encrypt_boot": true,
-      "ami_name": "ubuntu16-client {{timestamp}}"
+      "ami_name": "ubuntu16-client-1.0.0-{{timestamp}}",
+      "ami_groups": [ "all" ],
+      "source_ami_filter": {
+        "filters": {
+          "virtualization-type": "hvm",
+          "name": "ubuntu16-docker-base-1.0.0-*",
+          "root-device-type": "ebs"
+        },
+        "owners": ["707767160287"],
+        "most_recent": true
+      }
     }
   ],
   "provisioners": [
