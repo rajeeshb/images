@@ -91,10 +91,11 @@
         "sudo cat /etc/squid/ssl/squid.key /etc/squid/ssl/squid.crt | sudo tee /etc/squid/ssl/squid.pem",
         "sudo mv /tmp/squid.service /etc/systemd/system/",
         "sudo chmod 0755 /etc/systemd/system/squid.service",
-        "sudo chown -R proxy:proxy /var/log/squid/",
-        "sudo systemd start squid",
-        "sudo systemd enable squid",
-        "sudo sh -c 'echo post-up iptables-restore /etc/iptables.conf >> /etc/network/interfaces.d/eth0.cfg'"
+        "sudo mkdir -p /var/log/squid /var/cache/squid",
+        "sudo chown -R proxy:proxy /var/log/squid /var/cache/squid",
+        "sudo sh -c 'echo post-up iptables-restore /etc/iptables.conf >> /etc/network/interfaces.d/eth0.cfg'",
+        "echo 'enabling squid with systemd'",
+        "sudo systemctl enable squid"
       ]
     }
   ]

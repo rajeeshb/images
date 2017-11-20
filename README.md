@@ -1,7 +1,30 @@
-# Images
-Image config files and packer templates for building images across platforms.
+# TL;DR
 
-## Build a image
+Packer config files for building the AMI's underlying the squid-proxy, k8s-provisioner, and login-node in our AWS commons VPC's.
+
+## Build ubuntu16 image
+
+The newer 'ubuntu16_*' images are configured to publish public AMI's with names following the pattern *ubuntu16-NAME-1.0.0-TIMESTAMP*.
+The terraform code in the uc-cdis/cloud-automation repository looks for those images under the 'cdistest' AWS account using
+search filters like this [https://console.aws.amazon.com/ec2/v2/home?region=us-east-1#Images:visibility=public-images;search=707767160287/ubuntu*;sort=creationDate](https://console.aws.amazon.com/ec2/v2/home?region=us-east-1#Images:visibility=public-images;search=707767160287/ubuntu*;sort=creationDate).  The ubuntu16_client.json and ubuntu16_squid.json packer configs similarly find the latest ubuntu16_base.json AMI with a filter like this:
+```
+    "source_ami_filter": {
+        "filters": {
+          "virtualization-type": "hvm",
+          "name": "ubuntu16-docker-base-1.0.0-*",
+          "root-device-type": "ebs"
+        },
+        "owners": ["707767160287"],
+        "most_recent": true
+      }
+```
+
+So - to build the ubuntu16 images:
+1. `cp variables.example.json ~/.creds/packer/cdistest.json` and set the aws secrets in cdistest.json for the cdistest account
+2. `packer build --var-file ~/.creds/packer/cdistest.json images/ubuntu16...`
+
+## Build legacy ubunt14 image
+
 1. Download [packer](https://www.packer.io/downloads.html)
 2. `cp variables.example.json variables.json`, change the variables with your credentials, source_ami should be left empty.
 3. `packer build --var-file variables.json images/base_image.json`
