@@ -12,8 +12,7 @@ where cdistest.json looks like:
     "aws_region": "us-east-1",
     "aws_instance_type": "m4.xlarge",
     "aws_access_key": "YOUR KEY",
-    "aws_secret_key": "YOUR SECRET",
-    "source_ami": ""
+    "aws_secret_key": "YOUR SECRET"
 }
 ENDOFM
 }
@@ -40,7 +39,7 @@ function packer_build_image() {
     # print the error output from packer and exit 1. Otherwise, return the ID of
     # the Amazon Machine Image (AMI) built.
     #
-    packer_output="$(packer build --var-file $PACKER_VARIABLES --var-file source.json -machine-readable images/$1)"
+    packer_output="$(packer build --var-file $PACKER_VARIABLES -machine-readable images/$1)"
     #packer_output=bla
     packer_errors="$(echo "$packer_output" | egrep '^.*,.*,.*,error' | cut -d ',' -f 5-)"
     if [[ -n $packer_errors ]]; then
