@@ -2,6 +2,12 @@
 
 Packer config files for building the AMI's underlying the squid-proxy, k8s-provisioner, and login-node in our AWS commons VPC's.
 
+## Pull the SSH keys
+
+There is a script and an accompanying file in the configs subdirectory.  The script is called getkeys.rb, and the file is called gituserlist.  Edit the gituserlist file to contain the names of the users who's keys we want pre-populated in the images.
+
+Run `./getkeys.rb gituserlist`, and inspect the resulting authorized_keys.//timestamp// file.  If it looks right, replace authorized_keys with it, the continue building your images.
+
 ## Build ubuntu16 image
 
 The newer 'ubuntu16_*' images are configured to publish public AMI's with names following the pattern *ubuntu16-NAME-1.0.0-TIMESTAMP*.
