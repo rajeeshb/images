@@ -50,48 +50,9 @@ function packer_build_image() {
     echo "$packer_output" | egrep 'artifact,0,id' | rev | cut -d ',' -f 1 | rev | cut -d ':' -f 2
 }
 
-
-if [ -z "$SOURCE_AMI" ]; then
-  if [ ! -f source.json ]; then
-    cat > source.json << EOM
-{
-  "bla":"bla"
-}
-EOM
-  fi
-
-  echo "Building packer base image"
-  SOURCE_AMI="$(packer_build_image base_image.json)"
-  [ $? == 1 ] && exit 1;
-  echo "Base ami is $SOURCE_AMI"
-  # Fill in the source_ami packer variable. (Note that the packer variables
-  # file can't be read from and redirected to in the same step.)
-fi
-
-cat > source.json << EOM
-{
-  "source_ami":"${SOURCE_AMI}"
-}
-EOM
-
-if [ -z "$CLIENT_AMI" ]; then
-  echo "Building packer client image"
-  CLIENT_AMI="$(packer_build_image client.json)"
-  [ $? == 1 ] && exit 1;
-  echo "Client ami is $CLIENT_AMI"
-fi
-
-if [ -z "$PROXY_AMI" ]; then
-  echo "Building packer squid image"
-  PROXY_AMI="$(packer_build_image squid_image.json)"
-  [ $? == 1 ] && exit 1;
-  echo "Proxy ami is $PROXY_AMI"
-fi
-
-
 if [ -z "$UBUNTU_BASE" ]; then
   echo "Building packer ubuntu16_base image"
-  UBUNTU_BASE="$(packer_build_image ubuntu16_docker.json)"
+  UBUNTU_BASE="$(packer_build_image ubuntu16_base.json)"
   [ $? == 1 ] && exit 1;
   echo "ubuntu16_base ami is $UBUNTU_BASE"
   export ub16_source_ami="$UBUNTU_BASE"
@@ -104,13 +65,20 @@ if [ -z "$UBUNTU_CLIENT" ]; then
   echo "ubuntu16_client ami is $UBUNTU_CLIENT"
 fi
 
+
+if [ -z "$UBUNTU_PROXY" ]; then
+  echo "Building packer ubuntu16_squid image"
+  UBUNTU_PROXY="$(packer_build_image ubuntu16_squid.json)"
+  [ $? == 1 ] && exit 1;
+  echo "ubuntu16_squid ami is $UBUNTU_PROXY"
+fi
+
 cat > source.json << EOM
 {
-  "SOURCE_AMI":"${SOURCE_AMI}",
-  "CLIENT_AMI":"${CLIENT_AMI}",
   "PROXY_AMI":"${PROXY_AMI}",
   "UBUNTU_BASE":"${UBUNTU_BASE}",
-  "UBUNTU_CLIENT":"${UBUNTU_CLIENT}"
+  "UBUNTU_CLIENT":"${UBUNTU_CLIENT}",
+  "UBUNTU_PROXY":"${UBUNTU_PROXY}"
 }
 EOM
 
