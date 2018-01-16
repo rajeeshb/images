@@ -75,7 +75,6 @@ fi
 
 cat > source.json << EOM
 {
-  "PROXY_AMI":"${PROXY_AMI}",
   "UBUNTU_BASE":"${UBUNTU_BASE}",
   "UBUNTU_CLIENT":"${UBUNTU_CLIENT}",
   "UBUNTU_PROXY":"${UBUNTU_PROXY}"
