@@ -14,13 +14,13 @@
       "region": "{{user `aws_region`}}",
       "instance_type": "{{user `aws_instance_type`}}",
       "ssh_username": "ubuntu",
-      "ami_name": "ubuntu16-squid-1.0.1-{{timestamp}}",
+      "ami_name": "ubuntu16-squid-1.0.2-{{timestamp}}",
       "ami_groups": [ "all" ],
       "snapshot_groups": [ "all" ],
       "source_ami_filter": {
         "filters": {
           "virtualization-type": "hvm",
-          "name": "ubuntu16-docker-base-1.0.1-*",
+          "name": "ubuntu16-docker-base-1.0.2-*",
           "root-device-type": "ebs"
         },
         "owners": ["{{user `aws_account_id`}}"],

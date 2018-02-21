@@ -14,7 +14,7 @@
       "source_ami": "ami-41e0b93b",
       "instance_type": "{{user `aws_instance_type`}}",
       "ssh_username": "ubuntu",
-      "ami_name": "ubuntu16-docker-base-1.0.1-{{timestamp}}",
+      "ami_name": "ubuntu16-docker-base-1.0.2-{{timestamp}}",
       "ami_groups": [ "all" ],
       "snapshot_groups": [ "all" ]
     }
@@ -33,7 +33,11 @@
         "curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -",
         "sudo add-apt-repository \"deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable\"",
         "sudo apt update",
-        "sudo apt install -y docker-ce"
+        "sudo apt install -y docker-ce",
+	"sudo apt-get -y install curl python software-properties-common xz-utils bzip2 gnupg wget graphviz",
+        "sudo wget -O /tmp/awslogs-agent-setup.py https://s3.amazonaws.com/aws-cloudwatch/downloads/latest/awslogs-agent-setup.py",
+        "sudo chmod 775 /tmp/awslogs-agent-setup.py",
+        "sudo mkdir -p /var/awslogs/etc/"
       ]
     },
     {
@@ -57,6 +61,11 @@
       "destination": "/tmp/daemon.json"
     },
     {
+      "type": "file",
+      "source": "configs/awslogs.conf",
+      "destination": "/tmp/awslogs.conf"
+    },
+    {
       "type": "shell",
       "inline": [
         "sudo mkdir -p /etc/docker",
@@ -74,7 +83,11 @@
         "sudo chown root:root /usr/local/etc/ssh/krlfile",
         "sudo chmod 0600 /usr/local/etc/ssh/krlfile",
         "sudo chown root:root /root/.ssh/authorized_keys",
-        "sudo chmod 0600 /root/.ssh/authorized_keys"
+        "sudo chmod 0600 /root/.ssh/authorized_keys",
+	"curl -s http://169.254.169.254/latest/meta-data/placement/availability-zone > /tmp/EC2_AVAIL_ZONE",
+	"sudo python /tmp/awslogs-agent-setup.py --region=$(awk '{print substr($0, 1, length($0)-1)}' /tmp/EC2_AVAIL_ZONE) --non-interactive -c /tmp/awslogs.conf",
+	"sudo systemctl disable awslogs",
+	"sudo chmod 644 /etc/init.d/awslogs"
       ]
     }
   ]
