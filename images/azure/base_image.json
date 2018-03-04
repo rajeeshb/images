@@ -1,0 +1,24 @@
+{
+  "variables": {
+    "azure_client_id": "",
+    "azure_client_secret": "",
+    "azure_subscription_id": "",
+    "azure_region": "East US"
+  },
+  "builders": [
+    {
+      "type": "azure-arm",
+      "client_id": "{{user `azure_client_id`}}",
+      "client_secret": "{{user `azure_client_secret`}}",
+      "subscription_id": "{{user `azure_subscription_id`}}",
+      "os_type": "Linux",
+      "image_publisher": "Canonical",
+      "image_offer": "UbuntuServer",
+      "image_sku": "16.04-LTS",
+      "ssh_username": "ubuntu",
+      "location": "{{user `azure_region`}}",
+      "vm_size": "Standard_A1",
+      "managed_image_name": "base-image-ks-crypted-{{timestamp}}",
+      "managed_image_resource_group_name": "EDC"
+    }
+  ],
